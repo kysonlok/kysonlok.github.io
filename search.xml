@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hexo NextT 主题设置</title>
+    <url>/2020/06/04/Hexo_NextT_%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="安装和开始"><a href="#安装和开始" class="headerlink" title="安装和开始"></a>安装和开始</h2><p>按照 <a href="https://hexo.io/docs/">Hexo 官方文档</a>的指导安装 Hexo，并且使用 <code>hexo init</code> 创建一个博客站点。  </p>
+<p>切换到博客根目录，下载 NextT 主题：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="版本说明"><a href="#版本说明" class="headerlink" title="版本说明"></a>版本说明</h2><p>hexo 版本: 4.2.0<br>next 版本: 7.8.0  </p>
+<blockquote>
+<p>注意时效性，版本不同配置项可能存在差异。  </p>
+</blockquote>
+<h2 id="NextT-主题配置"><a href="#NextT-主题配置" class="headerlink" title="NextT 主题配置"></a>NextT 主题配置</h2><h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><p>使用 NextT 主题，并且设置语言为中文，修改博客根目录下的 <code>_config.yml</code> 文件：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">language: zh-CN  </span><br><span class="line">theme: next</span><br></pre></td></tr></table></figure>
+
+<p>接着修改主题风格，在 theme 配置 <code>themes/next/_config.yml</code> 文件找到 scheme 字段，选择主题风格。目前支持四种：Muse, Mist, Pisces 和 Gemini，任意选择一种合适的，我这里用的是 <code>Mist</code> 方案。    </p>
+<h3 id="设置菜单"><a href="#设置菜单" class="headerlink" title="设置菜单"></a>设置菜单</h3><p>在 theme 配置 <code>themes/next/_config.yml</code> 文件找到 menu 字段，可以根据个人偏好设置菜单。我这里保留了分类 categories，标签 tags，归档 archives 和 关于 about，|| 后面表示图标，这里不作修改。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F; || fa fa-home</span><br><span class="line">  categories: &#x2F;categories&#x2F; || fa fa-th</span><br><span class="line">  tags: &#x2F;tags&#x2F; || fa fa-tags</span><br><span class="line">  archives: &#x2F;archives&#x2F; || fa fa-archive</span><br><span class="line">  about: &#x2F;about&#x2F; || fa fa-user</span><br><span class="line">  #schedule: &#x2F;schedule&#x2F; || fa fa-calendar</span><br><span class="line">  #sitemap: &#x2F;sitemap.xml || fa fa-sitemap</span><br><span class="line">  #commonweal: &#x2F;404&#x2F; || fa fa-heartbeat</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h3><p>设置完菜单，由于新增的菜单栏没有对应的页面，点击会提示找不到页面，执行以下命令为新增的菜单栏添加对应的页面：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br><span class="line">hexo new page categories</span><br><span class="line">hexo new page about</span><br></pre></td></tr></table></figure>
+
+<p>成功执行以上命令，在 <code>sources</code> 目录下会生成对应的文件夹，每个文件夹里包含一个 <code>index.md</code> 文件。</p>
+<h3 id="文章显示"><a href="#文章显示" class="headerlink" title="文章显示"></a>文章显示</h3><p>默认首页的文章会显示全文，可以在原文插入 <code>&lt;!-- more --&gt;</code> 标签，会自动把该标签前面的文本生成摘要显示。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><br></pre></td></tr></table></figure>
+
+<h3 id="显示头像和-favicon"><a href="#显示头像和-favicon" class="headerlink" title="显示头像和 favicon"></a>显示头像和 favicon</h3><p>在 theme 配置 <code>themes/next/_config.yml</code> 文件找到 avatar 字段，设置 url 为头像文件(头像放置的路径为 <code>themes/next/source/images</code>) 。我比较喜欢头像呈圆形，这里把 <code>rounded</code> 的值改为了 true。    </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">avatar:</span><br><span class="line">  # Replace the default image and set the url here.</span><br><span class="line">  # url: #&#x2F;images&#x2F;avatar.gif</span><br><span class="line">  url: &#x2F;images&#x2F;avatar.png</span><br><span class="line">  # If true, the avatar will be dispalyed in circle.</span><br><span class="line">  rounded: true</span><br><span class="line">  # If true, the avatar will be rotated with the cursor.</span><br><span class="line">  rotated: false</span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <a href="https://favicon.io/favicon-generator/">favicon-generator</a> 网站制作 favicon，制作完之后下载，把制作好的 favicon 放置到 <code>themes/next/source/images</code> 目录下，在 theme 配置 <code>themes/next/_config.yml</code> 文件找到 favicon 字段，把相应的文件名改成上传的新 favicon 文件名。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">favicon:</span><br><span class="line">  small: &#x2F;images&#x2F;favicon-16x16.png</span><br><span class="line">  medium: &#x2F;images&#x2F;favicon-32x32.png</span><br><span class="line">  apple_touch_icon: &#x2F;images&#x2F;apple-touch-icon.png</span><br><span class="line">  safari_pinned_tab: &#x2F;images&#x2F;logo.svg</span><br><span class="line">  #android_manifest: &#x2F;images&#x2F;manifest.json</span><br><span class="line">  #ms_browserconfig: &#x2F;images&#x2F;browserconfig.xml</span><br></pre></td></tr></table></figure>
+
+<h3 id="搜索功能"><a href="#搜索功能" class="headerlink" title="搜索功能"></a>搜索功能</h3><p>在 theme 配置 <code>themes/next/_config.yml</code> 文件找到 local_search 字段，把值改为 true。并且在博客根目录下的<code>_config.yml</code> 文件添加以下内容：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意，搜索功能依赖 <a href="https://github.com/theme-next/hexo-generator-searchdb，在博客根目录执行">https://github.com/theme-next/hexo-generator-searchdb，在博客根目录执行</a> <code>npm install hexo-generator-searchdb --save</code> 进行安装。  </p>
+</blockquote>
+<h3 id="加载进度条"><a href="#加载进度条" class="headerlink" title="加载进度条"></a>加载进度条</h3><p>在 theme 配置 <code>themes/next/_config.yml</code> 文件找到 pace 字段，把值改为 true，根据个人偏好选择任意一种提供的样式填入 pace_theme。  </p>
+<blockquote>
+<p>注意，进度条依赖 <a href="https://github.com/theme-next/theme-next-pace，按照">https://github.com/theme-next/theme-next-pace，按照</a> theme-next-pace 的 README 说明进行安装。  </p>
+</blockquote>
+<h3 id="Fork-me-on-GitHub"><a href="#Fork-me-on-GitHub" class="headerlink" title="Fork me on GitHub"></a>Fork me on GitHub</h3><p>在 <a href="http://tholman.com/github-corners/">github-corners</a> 或者 <a href="https://github.blog/2008-12-19-github-ribbons/">github-ribbons</a> 选择自己喜欢的样式，复制插入到 <code>themes/next/layout/_layout.swig</code> 文件中 <code>&lt;div class=&quot;headband&quot;&gt;&lt;/div&gt;</code> 位置后面。    </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;headband&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;a href&#x3D;&quot;https:&#x2F;&#x2F;github.com&#x2F;kysonlok&quot;&gt;......</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo_Icarus_主题设置</title>
+    <url>/2020/06/04/Hexo_Icarus_%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="安装和开始"><a href="#安装和开始" class="headerlink" title="安装和开始"></a>安装和开始</h2><p>按照 <a href="https://hexo.io/docs/">Hexo 官方文档</a>的指导安装 Hexo，并且使用 <code>hexo init</code> 创建一个博客站点。  </p>
+<p>切换到博客根目录，下载 NextT 主题并安装依赖模块：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;ppoffice&#x2F;hexo-theme-icarus.git themes&#x2F;icarus</span><br><span class="line">npm install bulma-stylus@0.8.0 hexo-component-inferno hexo-renderer-inferno inferno  inferno-create-element --save</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>  
+
+<h2 id="版本说明"><a href="#版本说明" class="headerlink" title="版本说明"></a>版本说明</h2><p>Hexo 版本: 4.2.0<br>Icarus 版本: 3.1.0  </p>
+<blockquote>
+<p>注意时效性，版本不同配置项可能存在差异。  </p>
+</blockquote>
+<h2 id="Icarus-主题配置"><a href="#Icarus-主题配置" class="headerlink" title="Icarus 主题配置"></a>Icarus 主题配置</h2><h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><p>使用 Icarus 主题，并且设置语言为中文，修改博客根目录下的 <code>_config.yml</code> 文件：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">language: zh-CN  </span><br><span class="line">theme: icarus</span><br></pre></td></tr></table></figure>
+
+<p>Icarus 为我们预置了多达 12 种语言，默认是英文。zh-CN 是简体中文，大家可以根据自己的文案风格修改 <code>theme/icarus/languages/zh-CN.yml</code> 文件。    </p>
+<h3 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h3><p>首次在博客根目录执行 <code>hexo clean</code> 或者 <code>hexo g</code> 都会触发 Icarus 自动生成一个 <code>theme/icarus/_config.yml</code> 文件。  </p>
+<h3 id="logo-设置"><a href="#logo-设置" class="headerlink" title="logo 设置"></a>logo 设置</h3><p>logo 会展示在顶部导航栏的最左侧以及底部的 footer 区域，大家可以替换 <code>source/images/</code> 下的 logo 文件，使用 svg 或者 png 格式的都可以。    </p>
+<h3 id="评论系统"><a href="#评论系统" class="headerlink" title="评论系统"></a>评论系统</h3><p>Icarus 预置了 Changyan, Disqus, Facebook, Gitment, Gitalk, Isso, LiveRe 和 Valine 八大主流评论插件。</p>
+<p>这里以我使用的 Valine 为例。首先在 <a href="https://www.leancloud.cn/">LeanCloud</a> 注册一个免费的开发账号，新建一个新应用，并把 appid 和 appkey 配置在对应部分：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">comment:</span><br><span class="line">    type: valine</span><br><span class="line">    app_id: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br><span class="line">    app_key: xxxxxxxxxxxxxxxxxxxxxx</span><br><span class="line">    placeholder: &quot;&quot;                 # 可选填</span><br><span class="line">    avatar: mm                      # 可选填</span><br><span class="line">    avatar_force: false             # 可选填</span><br><span class="line">    meta: [&quot;nick&quot;, &quot;mail&quot;, &quot;link&quot;]  # 可选填</span><br><span class="line">    page_size: 10                   # 可选填</span><br><span class="line">    lang: zh-CN                     # 可选填</span><br><span class="line">    visitor: false                  # 可选填</span><br><span class="line">    highlight: true                 # 可选填</span><br><span class="line">    record_ip: false                # 可选填</span><br><span class="line">    server_urls:                    # 可选填</span><br><span class="line">    emoji_cdn:                      # 可选填</span><br><span class="line">    emoji_maps:                     # 可选填</span><br><span class="line">    enable_qq: false                # 可选填</span><br><span class="line">    required_fields: []             # 可选填</span><br></pre></td></tr></table></figure>
+
+<p>其他的评论插件配置，具体可以参见<a href="https://blog.zhangruipeng.me/hexo-theme-icarus/Plugins/Comment/icarus用户指南-用户评论插件/">用户评论插件</a>。  </p>
+<p>如果有的文章不希望别人评论，但是我们又不希望把整个站点的评论关闭的话，可以对指定文章进行评论关闭操作。操作也很简单，只需要在文章 markdown 文件的 front-matter 区域设置 <code>comments</code> 为 <code>false</code> 即可：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: article title</span><br><span class="line">comments: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<h3 id="打赏功能"><a href="#打赏功能" class="headerlink" title="打赏功能"></a>打赏功能</h3><p>Icarus 提供了支付宝，微信，PayPal 和 Patreon 四种支付方式：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">donates:</span><br><span class="line">    # Alipay donate button configurations</span><br><span class="line">    -</span><br><span class="line">        type: alipay</span><br><span class="line">        # Alipay qrcode image URL</span><br><span class="line">        qrcode: &#x2F;img&#x2F;alipay.jpg</span><br><span class="line">    # &quot;Buy me a coffee&quot; donate button configurations</span><br><span class="line">    # -</span><br><span class="line">        # type: buymeacoffee</span><br><span class="line">        # URL to the &quot;Buy me a coffee&quot; page</span><br><span class="line">        # url: &#39;&#39;</span><br><span class="line">    # Patreon donate button configurations</span><br><span class="line">    # -</span><br><span class="line">        # type: patreon</span><br><span class="line">        # URL to the Patreon page</span><br><span class="line">        # url: &#39;&#39;</span><br><span class="line">    # Paypal donate button configurations</span><br><span class="line">    # -</span><br><span class="line">        # type: paypal</span><br><span class="line">        # Paypal business ID or email address</span><br><span class="line">        # business: &#39;&#39;</span><br><span class="line">        # Currency code</span><br><span class="line">        # currency_code: USD</span><br><span class="line">    # Wechat donate button configurations</span><br><span class="line">    -</span><br><span class="line">        type: wechat</span><br><span class="line">        # Wechat qrcode image URL</span><br><span class="line">        qrcode: &#x2F;img&#x2F;wechat.jpg</span><br></pre></td></tr></table></figure>
+
+<p>支付宝和微信只需要提供二维码就可以了，可以使用本地静态资源或者图床链接。    </p>
+<h3 id="widget-挂件"><a href="#widget-挂件" class="headerlink" title="widget 挂件"></a>widget 挂件</h3><p>挂件是 Icarus 比较精髓的部分，所有的 widget 都是一个卡片，可以自由摆放在任何位置。包括文章在内，个人资料、链接、分类、最新文章、归档、标签都是一个卡片，可以在 <code>theme/icarus/_config.yml</code> 中设置各个卡片的具体属性，同时也可以设置卡片出现在网站的左侧还是右侧。   </p>
+<p>除了在 <code>themes/icarus/_config.yml</code> 的默认主题配置文件外，Icarus 也会从<code>themes/icarus/_config.post.yml</code> 和 <code>themes/icarus/_config.page.yml</code> 获取替代配置。可以在<code>_config.post.yml</code> 中设置仅对所有文章生效的配置， 例如，在此配置文件中把所有的挂件放置在页面一侧来实现所有文章两栏布局，同时其他页面仍保持三栏布局。详细使用可以参见 <a href="https://blog.zhangruipeng.me/hexo-theme-icarus/Configuration/icarus用户指南-主题配置/#配置文件与优先级">icarus用户指南-主题配置-配置文件与优先级</a>。    </p>
+<p>为了页面简洁大方，主页删除了大部分不需要的挂件，左侧只保留个人资料，右侧保留标签、分类和归档。文章页面只保留目录。  </p>
+<p><code>themes/icarus/_config.yml</code> 挂件配置：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">widgets:</span><br><span class="line">    # Profile widget configurations</span><br><span class="line">    -</span><br><span class="line">        # Where should the widget be placed, left sidebar or right sidebar</span><br><span class="line">        position: left</span><br><span class="line">        type: profile</span><br><span class="line">        # Author name</span><br><span class="line">        author: Kyson Lok</span><br><span class="line">        # Author title</span><br><span class="line">        author_title: Developer</span><br><span class="line">        # Author&#39;s current location</span><br><span class="line">        location: ShenZhen, China</span><br><span class="line">        # URL or path to the avatar image</span><br><span class="line">        avatar: &#x2F;img&#x2F;avatar.png</span><br><span class="line">        # Whether show the rounded avatar image</span><br><span class="line">        avatar_rounded: true</span><br><span class="line">        # Email address for the Gravatar</span><br><span class="line">        gravatar: </span><br><span class="line">        # URL or path for the follow button</span><br><span class="line">        follow_link: &#39;https:&#x2F;&#x2F;github.com&#x2F;kysonlok&#39;</span><br><span class="line">        # Links to be shown on the bottom of the profile widget</span><br><span class="line">        social_links:</span><br><span class="line">            Github:</span><br><span class="line">                icon: fab fa-github</span><br><span class="line">                url: &#39;https:&#x2F;&#x2F;github.com&#x2F;kysonlok&#39;</span><br><span class="line">            Facebook:</span><br><span class="line">                icon: fab fa-facebook</span><br><span class="line">                url: &#39;https:&#x2F;&#x2F;facebook.com&#39;</span><br><span class="line">            Twitter:</span><br><span class="line">                icon: fab fa-twitter</span><br><span class="line">                url: &#39;https:&#x2F;&#x2F;twitter.com&#39;</span><br><span class="line">            Dribbble:</span><br><span class="line">                icon: fab fa-dribbble</span><br><span class="line">                url: &#39;https:&#x2F;&#x2F;dribbble.com&#39;</span><br><span class="line">            # RSS:</span><br><span class="line">                # icon: fas fa-rss</span><br><span class="line">                # url: &#x2F;</span><br><span class="line">    -</span><br><span class="line">        # Where should the widget be placed, left sidebar or right sidebar</span><br><span class="line">        position: right</span><br><span class="line">        type: tags</span><br><span class="line">    # Categories widget configurations</span><br><span class="line">    -</span><br><span class="line">        # Where should the widget be placed, left sidebar or right sidebar</span><br><span class="line">        position: right</span><br><span class="line">        type: categories</span><br><span class="line">    # Archives widget configurations</span><br><span class="line">    -</span><br><span class="line">        # Where should the widget be placed, left sidebar or right sidebar</span><br><span class="line">        position: right</span><br><span class="line">        type: archives</span><br></pre></td></tr></table></figure>
+
+<p><code>themes/icarus/_config.post.yml</code> 挂件配置：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">widgets:</span><br><span class="line">    -</span><br><span class="line">        # Where should the widget be placed, left sidebar or right sidebar</span><br><span class="line">        position: right</span><br><span class="line">        type: toc</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+</search>
