@@ -1,57 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
-
-<url>
-  <loc>https://kysonlok.github.io/</loc>
-  <lastmod>2020-06-05T15:06:53+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://kysonlok.github.io/archives/</loc>
-  <lastmod>2020-06-05T15:06:53+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://kysonlok.github.io/categories/</loc>
-  <lastmod>2020-06-05T15:06:53+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://kysonlok.github.io/tags/</loc>
-  <lastmod>2020-06-05T15:06:53+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://kysonlok.github.io/about/</loc>
-  <lastmod>2020-06-05T15:06:53+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://kysonlok.github.io/2020/06/05/Hexo_Icarus_%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</loc>
-  <lastmod>2020-06-05T15:06:53+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://kysonlok.github.io/2020/06/04/Hexo_NextT_%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</loc>
-  <lastmod>2020-06-05T15:06:53+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://kysonlok.github.io/tags/hexo/</loc>
-  <lastmod>2020-06-05T15:06:53+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://kysonlok.github.io/archives/2020/06/</loc>
-  <lastmod>2020-06-05T15:06:53+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://kysonlok.github.io/2020/06/05/Hexo_Icarus_%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</loc>
+    
+    <lastmod>2020-06-04T16:50:57.237Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kysonlok.github.io/about/index.html</loc>
+    
+    <lastmod>2020-06-04T16:31:51.151Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kysonlok.github.io/tags/index.html</loc>
+    
+    <lastmod>2020-06-04T15:30:22.312Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kysonlok.github.io/categories/index.html</loc>
+    
+    <lastmod>2020-06-04T15:30:22.309Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kysonlok.github.io/2020/06/04/Hexo_NextT_%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</loc>
+    
+    <lastmod>2020-06-04T15:30:22.304Z</lastmod>
+    
+  </url>
+  
 </urlset>
