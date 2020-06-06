@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://kysonlok.github.io/2020/06/05/Hexo_Icarus_%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</loc>
+    <loc>http://kysonlok.github.io/2020/06/07/Gitee%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/</loc>
     
-    <lastmod>2020-06-04T16:50:57.237Z</lastmod>
+    <lastmod>2020-06-06T18:30:11.710Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kysonlok.github.io/2020/06/07/Hexo-NextT-%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</loc>
+    
+    <lastmod>2020-06-06T18:27:49.455Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kysonlok.github.io/2020/06/07/Hexo-Icarus-%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</loc>
+    
+    <lastmod>2020-06-06T18:27:49.450Z</lastmod>
     
   </url>
   
@@ -26,13 +40,6 @@
     <loc>http://kysonlok.github.io/categories/index.html</loc>
     
     <lastmod>2020-06-04T15:30:22.309Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://kysonlok.github.io/2020/06/04/Hexo_NextT_%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</loc>
-    
-    <lastmod>2020-06-04T15:30:22.304Z</lastmod>
     
   </url>
   
