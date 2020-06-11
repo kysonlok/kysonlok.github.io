@@ -245,4 +245,67 @@ A =
         <tag>密码学</tag>
       </tags>
   </entry>
+  <entry>
+    <title>VSCode配置</title>
+    <url>/2020/06/11/VSCode%E5%BC%80%E5%8F%91%E5%88%A9%E5%99%A8/</url>
+    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>工欲善其事，必先利其器。好的开发工具，能大大地提高开发的效率。以前一直使用 VIM 写代码，用 Source Insight 看代码，后来在朋友的推荐下切换到 VSCode，使用了一段时间，发现 VSCode 真的超级强大好用，而且是开源的，不得不让人青睐。写篇文章记录一下 VSCode 的配置以及插件，以便后续重新搭建环境可以作为参考。  </p>
+<a id="more"></a>  
+
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>进入官网 <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a> 下载并安装。  </p>
+<h2 id="集成-cmder"><a href="#集成-cmder" class="headerlink" title="集成 cmder"></a>集成 cmder</h2><p>cmder 也是一款非常优秀的开源 Windows 终端模拟器，完全可以代替 Windows 自带的 cmd 工具，可以在 <a href="https://cmder.net/">cmder 官网</a>下载。  </p>
+<p>通过快捷键 <code>Ctrl + Shift + P</code> 打开 VSCode 的命令面板，搜索”open settings”，修改 VSCode 的配置文件。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200611222134.jpg" alt="">  </p>
+<p>在 json 配置文件中添加以下内容：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;terminal.integrated.shell.windows&quot;: &quot;cmd.exe&quot;,</span><br><span class="line">&quot;terminal.integrated.env.windows&quot;: &#123;</span><br><span class="line">    &quot;CMDER_ROOT&quot;: &quot;$cmder_root_path&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;terminal.integrated.shellArgs.windows&quot;: [</span><br><span class="line">    &quot;&#x2F;k&quot;,</span><br><span class="line">    &quot;$cmder_root_path&#x2F;vendor&#x2F;init.bat&quot;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>将 <code>$cmder_root_path</code> 替换成 cmder 所在的根路径，注意左反斜杠路径要加转义，即 <code>\\</code>，或者直接使用右反斜杠 <code>/</code>，与 Linux 风格保持一致。<strong>路径不能包含空格，否则无法正常工作</strong>。  </p>
+<p>重启 VSCode 生效，按 <code>Ctrl + `</code> 快捷键，就能在 VSCode 中的命令行窗口打开 cmder。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200611223005.jpg" alt="">  </p>
+<h2 id="WSL-远程"><a href="#WSL-远程" class="headerlink" title="WSL 远程"></a>WSL 远程</h2><p>WSL(Windows Subsystem for Linux) 是一款在 Windows10 系统下的 Linux 子系统，就是能在直接在 Windows10 上跑 Linux，不需要安装虚拟机。具体可以参考微软关于 <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL 安装</a>的文档。   </p>
+<p>开发一般用到 Linux 环境，但是开启虚拟机电脑又会变卡，选择 WSL 是很好的解决方案，主要的优势就是快，而且方便。  </p>
+<p>VSCode 可以直接远程到 WSL，直接操作 WSL 的目录以及文件。需要安装 <code>Remote - WSL</code> 插件，在插件页面搜索安装即可。安装完成之后，按 <code>Ctrl + Shift + P</code> 快捷键打开命令面板，选择 <code>Remote-WSL: New Window</code> 就能远程到 WSL。  </p>
+<blockquote>
+<p>注意，WSL 远程的插件与本地插件是不能共用的，如果需要用到其他插件，要在插件页面安装到 WSL 上。  </p>
+</blockquote>
+<h2 id="SSH-远程"><a href="#SSH-远程" class="headerlink" title="SSH 远程"></a>SSH 远程</h2><p>WSL 基本能满足大部分的场景，但是特殊情况，比如嵌入式开发，用到交叉编译工具编译，WSL 是不支持交叉编译的。对于这种情况，我们会选择虚拟机或者服务器，以服务器为例，一般是没有图像界面的，VSCode 的 SSH 远程插件能远程到服务器，直接操作服务器下的目录以及文件。需要安装 <code>Remote - SSH</code> 插件，在插件页面搜索安装即可，跟 <code>Remote - WSL</code> 类似。  </p>
+<p>需要说明的是，SSH 每次都要输入密码比较麻烦，可以使用公私钥免密码登录。  </p>
+<p>首先，在 cmder 执行命令 <code>ssh-keygen</code> 生成公私钥对，提示输入密码时不设置密码，也就是直接回车。  </p>
+<p>其次，用编辑器打开公钥文件 <code>id_rsa.pub</code>，复制全部内容。  </p>
+<p>接着，ssh 远程登录到服务器，把公钥文件的内容粘贴到 <code>~/.ssh/authorized_keys</code> 文件中。  </p>
+<p>最后，用 VSCode 远程到服务器，按 <code>Ctrl + Shift + P</code> 快捷键打开命令面板，选择 <code>Remote-SSH: Connect to Host</code>，在弹出的 ssh 连接框输入 <code>ssh -i [私钥的绝对路径] yourname@remote_host</code>。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612060820.jpg" alt="">  </p>
+<p>再次选择 <code>Remote-SSH: Connect to Host</code> 就可以看到刚才添加的远程主机。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612061244.png" alt="">  </p>
+<p>第一次连接 VSCode 可能不能自动检测到远程的系统类型，会弹框让我们手动选择，选择正确的系统类型，就能开始使用了，就像在本地使用 VSCode 那样，非常方便。  </p>
+<blockquote>
+<p>注意，远程主机的插件与本地插件是不能共用的，如果需要用到其他插件，要在插件页面安装到远程主机上。  </p>
+</blockquote>
+<h2 id="Markdown-预览增强"><a href="#Markdown-预览增强" class="headerlink" title="Markdown 预览增强"></a>Markdown 预览增强</h2><p>VSCode 默认支持 Markdown 预览，快捷键是 <code>Ctrl + Shift + V</code>，或者在命令面板面板运行 <code>Markdown: Open Preview to the Side</code>。  </p>
+<p>但是自带的 Markdown 功能不是很强大，不支持 Latex 数学公式渲染，可以安装 <code>Markdown Preview Enhanced</code> 插件增强 Markdown 预览功能。  </p>
+<h2 id="C-C-开发"><a href="#C-C-开发" class="headerlink" title="C/C++ 开发"></a>C/C++ 开发</h2><p>一般开发环境是 Linux，这里使用 VSCode ssh 远程到 Linux 目标主机的模式。远程到目标主机后，安装 <code>C/C++</code> 插件，并且在目标主机上安装 gcc 和 make 等开发工具。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install build-essential gdb make</span><br></pre></td></tr></table></figure>
+
+<p>打开一个 C/C++ 工程，或者新创建一个工程，用 Makefile 构建好编译规则，配置 VSCode。  </p>
+<h3 id="编译配置"><a href="#编译配置" class="headerlink" title="编译配置"></a>编译配置</h3><p>在菜单栏选择 <strong>Terminal &gt; Configure Default Build Task</strong>，下拉列表显示 c++ 编译器的各种预定义构建任务，选择 <code>C/C++: g++ build active file</code>，会自动在工程目录下生成 <code>.code/tasks.json</code> 配置文件。参考以下内容修改 tasks.json 配置：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; See https:&#x2F;&#x2F;go.microsoft.com&#x2F;fwlink&#x2F;?LinkId&#x3D;733558 </span><br><span class="line">    &#x2F;&#x2F; for the documentation about the tasks.json format</span><br><span class="line">    &quot;version&quot;: &quot;2.0.0&quot;,</span><br><span class="line">    &quot;tasks&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;type&quot;: &quot;shell&quot;,</span><br><span class="line">            &quot;label&quot;: &quot;Make Project&quot;,</span><br><span class="line">            &quot;command&quot;: &quot;&#x2F;usr&#x2F;bin&#x2F;make&quot;,</span><br><span class="line">            &quot;args&quot;: [</span><br><span class="line">                &quot;-C&quot;,</span><br><span class="line">                &quot;$&#123;fileDirname&#125;&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;options&quot;: &#123;</span><br><span class="line">                &quot;cwd&quot;: &quot;&#x2F;usr&#x2F;bin&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;problemMatcher&quot;: [</span><br><span class="line">                &quot;$gcc&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;group&quot;: &#123;</span><br><span class="line">                &quot;kind&quot;: &quot;build&quot;,</span><br><span class="line">                &quot;isDefault&quot;: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="调试配置"><a href="#调试配置" class="headerlink" title="调试配置"></a>调试配置</h3><p>在菜单栏选择 <strong>Run &gt; Add Configuration…</strong>，下拉列表显示 gdb 调试器的各种预定义构建任务，选择 <code>C++ (GDB/LLDB)</code>，会自动在工程目录下生成 <code>.code/launch.json</code> 配置文件。参考以下内容修改 launch.json 配置：   </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; Use IntelliSense to learn about possible attributes.</span><br><span class="line">    &#x2F;&#x2F; Hover to view descriptions of existing attributes.</span><br><span class="line">    &#x2F;&#x2F; For more information, visit: https:&#x2F;&#x2F;go.microsoft.com&#x2F;fwlink&#x2F;?linkid&#x3D;830387</span><br><span class="line">    &quot;version&quot;: &quot;0.2.0&quot;,</span><br><span class="line">    &quot;configurations&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot;: &quot;gcc build and debug active file&quot;,</span><br><span class="line">            &quot;type&quot;: &quot;cppdbg&quot;,</span><br><span class="line">            &quot;request&quot;: &quot;launch&quot;,</span><br><span class="line">            &quot;program&quot;: &quot;$&#123;fileDirname&#125;&#x2F;$&#123;fileBasenameNoExtension&#125;&quot;,</span><br><span class="line">            &quot;args&quot;: [],</span><br><span class="line">            &quot;stopAtEntry&quot;: false,</span><br><span class="line">            &quot;cwd&quot;: &quot;$&#123;workspaceFolder&#125;&quot;,</span><br><span class="line">            &quot;environment&quot;: [],</span><br><span class="line">            &quot;externalConsole&quot;: false,</span><br><span class="line">            &quot;MIMode&quot;: &quot;gdb&quot;,</span><br><span class="line">            &quot;setupCommands&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;description&quot;: &quot;Enable pretty-printing for gdb&quot;,</span><br><span class="line">                    &quot;text&quot;: &quot;-enable-pretty-printing&quot;,</span><br><span class="line">                    &quot;ignoreFailures&quot;: true</span><br><span class="line">                &#125;</span><br><span class="line">            ],</span><br><span class="line">            &quot;preLaunchTask&quot;: &quot;Make Project&quot;,</span><br><span class="line">            &quot;miDebuggerPath&quot;: &quot;&#x2F;usr&#x2F;bin&#x2F;gdb&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>preLaunchTask</code> 填的是 tasks.json 的 label 值，表示在调试之前先执行编译任务。  </p>
+<p>更详细的指南，参考 VSCode 官方文档 <a href="https://code.visualstudio.com/docs/cpp/config-linux">GCC on Linux</a> 和 <a href="https://code.visualstudio.com/docs/cpp/cpp-debug">Debug C++ in Visual Studio Code</a>。  </p>
+<h2 id="快捷键冲突"><a href="#快捷键冲突" class="headerlink" title="快捷键冲突"></a>快捷键冲突</h2><p><code>Ctrl + `</code>: 是 VSCode 打开命令行终端的快捷键，该快捷键会跟 cmder 的快捷键冲突，修改 cmder 的快捷键。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200611215830.jpg" alt="">  </p>
+<p><code>Ctrl + Shift + F</code>: 是 VSCode 打开搜索面板的快捷键，该快捷键会跟搜狗输入法的快捷键冲突，修改搜狗输入法的快捷键。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200611220239.jpg" alt="">  </p>
+<p><code>Ctrl + Shift + P</code>: 是 VSCode 打开命令面板的快捷键，该快捷键会跟 PicGo 图床工具的快捷键冲突，将其关闭。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200611221755.jpg" alt="">  </p>
+]]></content>
+      <categories>
+        <category>办公利器</category>
+      </categories>
+      <tags>
+        <tag>VSCode</tag>
+      </tags>
+  </entry>
 </search>
