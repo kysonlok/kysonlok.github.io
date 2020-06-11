@@ -41,7 +41,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo-Icarus-支持Latex数学公式</title>
+    <title>Hexo Icarus 支持Latex数学公式</title>
     <url>/2020/06/11/Hexo-Icarus-%E6%94%AF%E6%8C%81Latex%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="支持-MathJax"><a href="#支持-MathJax" class="headerlink" title="支持 MathJax"></a>支持 MathJax</h2><p>Icarus 主题默认支持了 MathJax 插件渲染数学公式，只需要在主题配置文件 <code>theme/icarus/_config.yml</code> 使能就可以直接使用。  </p>
 <p>关于更多说明，可以参考 <a href="https://blog.zhangruipeng.me/hexo-theme-icarus/Plugins/Other/icarus-user-guide-other-plugins/#MathJax">icarus-user-guide-other-plugins-MathJax</a>。  </p>
