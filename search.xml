@@ -475,6 +475,8 @@ A =
     <content><![CDATA[<h2 id="printf-格式化输出"><a href="#printf-格式化输出" class="headerlink" title="printf 格式化输出"></a>printf 格式化输出</h2><p>awk 的格式化输出，和 C 语言的 printf 没什么区别。让我们来看一下以下的格式化输出示例：  </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：echo 123.4567 | awk &#39;&#123;printf &quot;%.3f\n&quot;, $1&#125;&#39;</span><br><span class="line">输出：123.457</span><br><span class="line"></span><br><span class="line"># 不满8字符向左填充空格，并且只保留一位小数</span><br><span class="line">输入：echo 123.4567 | awk &#39;&#123;printf &quot;%8.1f\n&quot;, $1&#125;&#39;</span><br><span class="line">输出：   123.5</span><br><span class="line"></span><br><span class="line"># 第一个元素不满20字符向右填充空格，并且保留七位小数；第二个元素以整形输出</span><br><span class="line">输入：echo 123.4567 55.2 | awk &#39;&#123;printf &quot;%-20.7f  %d\n&quot; , $1 , $2&#125;&#39;</span><br><span class="line">输出：123.4567000           55</span><br></pre></td></tr></table></figure>
 
+<a id="more"></a>  
+
 <p>格式控制的字符列表说明如下：  </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#96;c&#39;    This prints a number as an ASCII character. Thus, &#96;printf &quot;%c&quot;, 65&#39; outputs the letter &#96;A&#39;. </span><br><span class="line">          The output for a string value is the first character of the string. </span><br><span class="line"></span><br><span class="line">&#96;d&#39;    This prints a decimal integer. </span><br><span class="line"></span><br><span class="line">&#96;i&#39;    This also prints a decimal integer. </span><br><span class="line"></span><br><span class="line">&#96;e&#39;    This prints a number in scientific (exponential) notation. </span><br><span class="line">           For example, printf &quot;%4.3e&quot;, 1950  prints &#96;1.950e+03&#39;, </span><br><span class="line">           with a total of four significant figures of which three follow the decimal point. </span><br><span class="line">           The &#96;4.3&#39; are modifiers, discussed below. </span><br><span class="line"></span><br><span class="line">&#96;f&#39;    This prints a number in floating point notation. </span><br><span class="line"></span><br><span class="line">&#96;g&#39;    This prints a number in either scientific notation or floating point notation, whichever uses fewer characters. </span><br><span class="line"></span><br><span class="line">&#96;o&#39;    This prints an unsigned octal integer. </span><br><span class="line"></span><br><span class="line">&#96;s&#39;    This prints a string. </span><br><span class="line"></span><br><span class="line">&#96;x&#39;    This prints an unsigned hexadecimal integer. </span><br><span class="line"></span><br><span class="line">&#96;X&#39;    This prints an unsigned hexadecimal integer. </span><br><span class="line">          However, for the values 10 through 15, it uses the letters &#96;A&#39; through &#96;F&#39; instead of &#96;a&#39; through &#96;f&#39;. </span><br><span class="line"></span><br><span class="line">&#96;%&#39;    This isn&#39;t really a format-control letter, but it does have a meaning when used after a &#96;%&#39;: the sequence &#96;%%&#39; outputs one &#96;%&#39;. </span><br><span class="line">         It does not consume an argument.</span><br></pre></td></tr></table></figure>
 
@@ -559,6 +561,44 @@ A =
       <tags>
         <tag>Linux</tag>
         <tag>awk</tag>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux Shell 变量参数扩展教程</title>
+    <url>/2020/06/12/Linux-Shell-%E5%8F%98%E9%87%8F%E5%8F%82%E6%95%B0%E6%89%A9%E5%B1%95%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="shell参数扩展说明"><a href="#shell参数扩展说明" class="headerlink" title="shell参数扩展说明"></a>shell参数扩展说明</h2><p>shell 参数扩展格式：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$&#123;expression&#125;</span><br></pre></td></tr></table></figure>
+
+<p>expression 表达式可以为任意的字符，直到匹配到 ‘}’ 为止，因此表达式包含 ‘}’ 的话需要用转义或者用单引号包含起来。  </p>
+<a id="more"></a>
+
+<h2 id="值替换"><a href="#值替换" class="headerlink" title="值替换"></a>值替换</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$&#123;parameter:-word&#125;</span><br><span class="line">如果 parameter 为 null 或者未设置，整个参数替换表达式值为 word</span><br><span class="line"> </span><br><span class="line">$&#123;parameter:&#x3D;word&#125;</span><br><span class="line">如果 parameter 为 null 或者未设置，整个参数替换表达式值为 word，并且 parameter 参数值设置为 word</span><br><span class="line"> </span><br><span class="line">$&#123;parameter:?word&#125;</span><br><span class="line">如果 parameter 为 null 或者未设置，则打印出错误信息。否则，整个参数替换表达式值为 $parameter</span><br><span class="line"> </span><br><span class="line">$&#123;parameter:+word&#125;</span><br><span class="line">如果 parameter 不为 null 或者未设置，则整个参数替换表达式值为 word</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612233338.jpg" alt=""></p>
+<h2 id="字符串替换"><a href="#字符串替换" class="headerlink" title="字符串替换"></a>字符串替换</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$&#123;parameter&#x2F;pattern&#x2F;string&#125;</span><br><span class="line">$&#123;parameter&#x2F;&#x2F;pattern&#x2F;string&#125;</span><br><span class="line">将 parameter 对应值的 pattern 字符串替换成为 string 字符串</span><br><span class="line">&#x2F;表示只替换一次</span><br><span class="line">&#x2F;&#x2F;表示全部替换</span><br></pre></td></tr></table></figure>
+
+<p>例子：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$&#123;parameter&#x2F;pattern&#x2F;string&#125;</span><br><span class="line"></span><br><span class="line">var&#x3D;&quot;3&#x2F;1&#x2F;2&#x2F;3333&quot;</span><br><span class="line">echo $&#123;var&#x2F;3&#x2F;6&#125;</span><br><span class="line">6&#x2F;1&#x2F;2&#x2F;3333</span><br><span class="line"></span><br><span class="line">$&#123;parameter&#x2F;&#x2F;pattern&#x2F;string&#125;</span><br><span class="line">var&#x3D;&quot;3&#x2F;1&#x2F;2&#x2F;3333&quot;</span><br><span class="line">echo $&#123;var&#x2F;&#x2F;3&#x2F;6&#125;</span><br><span class="line">6&#x2F;1&#x2F;2&#x2F;6666</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="字符串长度"><a href="#字符串长度" class="headerlink" title="字符串长度"></a>字符串长度</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$&#123;#parameter&#125;</span><br><span class="line">获得字符串的长度</span><br></pre></td></tr></table></figure>
+
+<p>例子：   </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$&#123;#parameter&#125;</span><br><span class="line"></span><br><span class="line">var&#x3D;&quot;Hello&quot;</span><br><span class="line">echo $&#123;#var&#125;</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符过滤"><a href="#字符过滤" class="headerlink" title="字符过滤"></a>字符过滤</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$&#123;parameter%word&#125;</span><br><span class="line">$&#123;parameter%%word&#125;</span><br><span class="line">word 支持通配符，从尾开始匹配 word，将匹配 word 正则表达式的字符删除</span><br><span class="line">% 为最短匹配，%% 为最长匹配</span><br><span class="line"> </span><br><span class="line">$&#123;parameter#word&#125;</span><br><span class="line">$&#123;parameter##word&#125;</span><br><span class="line">word 支持通配符，从头开始扫描 word，将匹配 word 正则表达的字符删除</span><br><span class="line">#为最短匹配，##为最长匹配</span><br><span class="line"></span><br><span class="line">注意，匹配成功就停止继续匹配，也就是只匹配一次。最长匹配一般是针对通配符，能够匹配到最长字符串，也就是即时匹配成功，还会继续匹配，取最后一次匹配成功的。</span><br></pre></td></tr></table></figure>
+
+<p>例子：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$&#123;parameter%word&#125;</span><br><span class="line"></span><br><span class="line">x&#x3D;file.c</span><br><span class="line">echo $&#123;x%.c&#125;.o</span><br><span class="line">file.o</span><br><span class="line"></span><br><span class="line">$&#123;parameter%%word&#125;</span><br><span class="line"></span><br><span class="line">x&#x3D;posix&#x2F;src&#x2F;std</span><br><span class="line">echo $&#123;x%%&#x2F;*&#125;</span><br><span class="line">posix</span><br><span class="line"></span><br><span class="line">$&#123;parameter#word&#125;</span><br><span class="line"></span><br><span class="line">x&#x3D;$HOME&#x2F;src&#x2F;cmd</span><br><span class="line">echo $&#123;x#$HOME&#125;</span><br><span class="line">&#x2F;src&#x2F;cmd</span><br><span class="line"></span><br><span class="line">$&#123;parameter##word&#125;</span><br><span class="line"></span><br><span class="line">x&#x3D;&#x2F;one&#x2F;two&#x2F;three</span><br><span class="line">echo $&#123;x##*&#x2F;&#125;</span><br><span class="line">three</span><br></pre></td></tr></table></figure>
+
+<h2 id="See-also"><a href="#See-also" class="headerlink" title="See also"></a>See also</h2><p><a href="http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_06_02">http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_06_02</a></p>
+]]></content>
+      <categories>
+        <category>脚本语言</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
         <tag>shell</tag>
       </tags>
   </entry>
