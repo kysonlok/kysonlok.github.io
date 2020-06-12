@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="google-site-verification" content="BEJwibIBrcAQPUa_NmC_S46RiD5z0xyL0WpGrZEEv34"><title>数据加密标准-DES - Kyson.Lok</title><meta description="DES 加密概述数据加密标准（Data Encryption Standard，缩写为 DES）是由国家标准局（NIST）出版的对称密钥分组密码（块密码）。   对于任何加密体制，总有明文和密钥两个输入。DES 是费斯妥密码（Feistel Cipher）的一种实现，进行 16 轮迭代，其明文长度为 64 bit，密钥长度也是 64 bit（但只有 56 bit 被实际用于算法，其余 8 bit"><meta property="og:type" content="blog"><meta property="og:title" content="数据加密标准-DES"><meta property="og:url" content="http://kysonlok.github.io/2020/06/12/%E6%95%B0%E6%8D%AE%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86-DES/"><meta property="og:site_name" content="Kyson.Lok"><meta property="og:description" content="DES 加密概述数据加密标准（Data Encryption Standard，缩写为 DES）是由国家标准局（NIST）出版的对称密钥分组密码（块密码）。   对于任何加密体制，总有明文和密钥两个输入。DES 是费斯妥密码（Feistel Cipher）的一种实现，进行 16 轮迭代，其明文长度为 64 bit，密钥长度也是 64 bit（但只有 56 bit 被实际用于算法，其余 8 bit"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212511.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212534.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212550.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212612.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212630.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212651.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212704.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212723.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212742.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212804.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212839.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212856.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212925.jpg"><meta property="article:published_time" content="2020-06-12T13:23:47.000Z"><meta property="article:modified_time" content="2020-06-12T13:47:58.845Z"><meta property="article:author" content="Kyson Lok"><meta property="article:tag" content="密码学"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212511.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://kysonlok.github.io/2020/06/12/%E6%95%B0%E6%8D%AE%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86-DES/"},"headline":"Kyson.Lok","image":["https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212511.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212534.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212550.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212612.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212630.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212651.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212704.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212723.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212742.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212804.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212839.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212856.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212925.jpg"],"datePublished":"2020-06-12T13:23:47.000Z","dateModified":"2020-06-12T13:47:58.845Z","author":{"@type":"Person","name":"Kyson Lok"},"description":"DES 加密概述数据加密标准（Data Encryption Standard，缩写为 DES）是由国家标准局（NIST）出版的对称密钥分组密码（块密码）。   对于任何加密体制，总有明文和密钥两个输入。DES 是费斯妥密码（Feistel Cipher）的一种实现，进行 16 轮迭代，其明文长度为 64 bit，密钥长度也是 64 bit（但只有 56 bit 被实际用于算法，其余 8 bit"}</script><link rel="canonical" href="http://kysonlok.github.io/2020/06/12/%E6%95%B0%E6%8D%AE%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86-DES/"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Kyson&#039;s Blog</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/kysonlok"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2020-06-12T13:23:47.000Z" title="2020-06-12T13:23:47.000Z">2020-06-12</time><span class="level-item"><a class="link-muted" href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6%E4%B8%8E%E5%AE%89%E5%85%A8/">密码学与安全</a></span><span class="level-item">13 分钟 读完 (大约 1883 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">数据加密标准-DES</h1><div class="content"><h2 id="DES-加密概述"><a href="#DES-加密概述" class="headerlink" title="DES 加密概述"></a>DES 加密概述</h2><p>数据加密标准（Data Encryption Standard，缩写为 DES）是由国家标准局（NIST）出版的对称密钥分组密码（块密码）。  </p>
+<p>对于任何加密体制，总有<strong>明文</strong>和<strong>密钥</strong>两个输入。DES 是费斯妥密码（Feistel Cipher）的一种实现，进行 16 轮迭代，其明文长度为 64 bit，密钥长度也是 64 bit（但只有 56 bit 被实际用于算法，其余 8 bit 可以被用于奇偶校验，并在算法中被丢弃）。  </p>
+<a id="more"></a>  
+
+<p>DES 的一般结构如下图所示，可见明文的处理经过了三个阶段。  </p>
+<ol>
+<li>首先，64 bit 明文经过<strong>初始置换(IP)</strong>而被重新排序；  </li>
+<li>然后，经过 16 轮相同的<strong>费斯妥函数</strong>的处理过程，每轮包含了代替和置换两个步骤；  </li>
+<li>最后， 再进行一次<strong>与初始置换互逆的置换($IP^{-1}$)</strong> ，得到 64 bit的密文。  </li>
+</ol>
+<p>除了初始和末尾的置换，DES 的结构与费斯妥密码结构完全相同。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212511.jpg" alt=""></p>
+<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><h3 id="初始置换和末尾置换"><a href="#初始置换和末尾置换" class="headerlink" title="初始置换和末尾置换"></a>初始置换和末尾置换</h3><p>初始置换和末尾置换只是对输入按位重新组合，在 DES 中没有密码学意义，初始置换和末尾置换如下所示： </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212534.jpg" alt=""></p>
+<p>输入的第 58 位换到第 1 位，第 50 位换到第2位，…，依此类推，最后一位是原来的第 7 位。假设输入的 64 位块为$M_1, M_2, M_3, …, M_{64}$，则经过初始置换后的结果为 $M_{58}, M_{50}, M_{42}, …, M_7$。  </p>
+<p>64 位的输入 M：    </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212550.jpg" alt=""></p>
+<p>这里 $M_i$ 都是二进制，经过置换 X=IP(M) 之后，得到的 X：  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212612.jpg" alt=""></p>
+<h3 id="费斯妥函数（F-函数）"><a href="#费斯妥函数（F-函数）" class="headerlink" title="费斯妥函数（F 函数）"></a>费斯妥函数（F 函数）</h3><p>DES 加密的核心是费斯妥函数，即每轮的变换。由费斯妥密码结构可知，明文会被均分成两等分，右半部分和密钥经过费斯妥函数处理。对于 DES 加密，48 bit 子密钥（由主密钥派生）和 32 bit 右半块作为费斯妥函数的输入，处理后输出 32 bit结果。  </p>
+<p>下图是费斯妥函数的内部结构。密钥 $K_i$ 长度为 48 bit，R 长度为 32 bit。分为四个步骤：  </p>
+<ol>
+<li>将 R <strong>置换扩展</strong>为 48 bit，其中有 16 bit 是重复；  </li>
+<li>置换扩展产生的 48 bit 输出与 48 bit 的 $K_i$ 异或；  </li>
+<li>异或的结果经过“S盒”（置换盒），产生 32 bit 的输出；  </li>
+<li>“S盒”的输出最后再经过一次 P 置换，得到的 32 bit 是费斯妥函数的输出。  </li>
+</ol>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212630.jpg" alt=""></p>
+<h4 id="扩展置换"><a href="#扩展置换" class="headerlink" title="扩展置换"></a>扩展置换</h4><p>因为右半块长度是 32 bit，而密钥长度是 48 bit，因此，需要先把右半块扩展到 48 bit，称为“扩展置换”。扩展置换是将输入的 32 bit 半块分成 8 个 4 bit 小块，每 4 bit 块加上左右相邻块中紧邻的位，得到 6 bit 输出。第 1 块没有左邻，用第 32 位，最后一块没有右邻，用第 1 位。扩展置换输出 8 个 6 bit 的块，其逻辑如下：  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212651.jpg" alt=""></p>
+<p>扩展置换逻辑通常被描述为下图的 DES 规范表格：  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212704.jpg" alt=""></p>
+<h4 id="与密钥混合"><a href="#与密钥混合" class="headerlink" title="与密钥混合"></a>与密钥混合</h4><p>用异或操作将扩展的 48 bit 右半块和一个 48 bit 子密钥进行混合。16 轮变换使用 16 个 48 bit 子密钥，也就是每轮用的子密钥都是不同的，48 bit 的子密钥是利用密钥调度（下面介绍）从 58 bit 主密钥生成。    </p>
+<h4 id="S-盒（置换盒）"><a href="#S-盒（置换盒）" class="headerlink" title="S 盒（置换盒）"></a>S 盒（置换盒）</h4><p>48 bit 的异或输出再经过 S 盒处理，产生 32 bit 的输出。S 盒执行真正的混淆，它提供了 DES 的核心安全性。如果没有 S 盒，密码会是线性的，很容易破解。DES 使用 8 个 S 盒，每个盒子以查找表方式提供非线性的变换，将 6 bit 输入变成 4 bit 输出。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212723.jpg" alt=""></p>
+<p>S 盒是一个 4x16 的表，盒 $S_i$ 输入的 6 bit 中，由第 1 位和第 6 位组成的二进制数确定表的行，中间 4 位组成的二进制数确定表的列，行和列交叉的元素转换成 4 bit 二进制数作为输出。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212742.jpg" alt=""></p>
+<p>DES 的 8 个 S 盒变换表（下标从 0 开始）规格如图所示：  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212804.jpg" alt=""></p>
+<p>例如，在 $S_1$ 中，若输入为 011001，则行是 1(01)，列是 12(1100)，由行和列确定的元素是 9(1, 12)，9 对应的二进制为 1001，因此 4 bit 输出为 1001。  </p>
+<h4 id="置换"><a href="#置换" class="headerlink" title="置换"></a>置换</h4><p>S 盒的 32 bit 输出最后再经过一次“P置换”进行重组。这个设计是为了将每个 S 盒的 4 位输出在下一回次的扩张后，使用 4 个不同的 S 盒进行处理。置换表格如下图所示：  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212839.jpg" alt=""></p>
+<p>S 盒，P 置换和 E 扩展各自满足了克劳德·香农在 1940 年代提出的实用密码所需的必要条件——“混淆与扩散”。  </p>
+<h3 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h3><p>前面我们知道，密钥长度为 64 bit，算法只用 56 bit。循环密钥生成器从 56 bit 密钥中创建 16 个 48 bit 子密钥。密钥生成过程如下图所示。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212856.jpg" alt=""></p>
+<p>首先，使用选择置换 1(PC-1) 从 64 bit 输入密钥中选出 56 bit 的密钥，剩余的 8 bit 要么直接被丢弃掉，要么作为奇偶校验位。  </p>
+<p>然后，将 56 bit 密钥分成两个 28 bit 的半密钥。在接下来的每轮变换中，两个半密钥都被左移 1 或 2 位（左移 1 还是 2 由当前的迭代轮数决定），移位后的值作为下一轮的输入，并且通过选择置换 2(PC-2) 压缩成 48 bit 的子密钥。  </p>
+<p>解密过程中，除了子密钥输出的顺序相反外，密钥调度的过程与加密完全相同。  </p>
+<p>置换选择以及移位次数如下图所示：  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212925.jpg" alt=""></p>
+<h2 id="安全与密码分析"><a href="#安全与密码分析" class="headerlink" title="安全与密码分析"></a>安全与密码分析</h2><p>DES 满足分组密码的两个要求，这两个特性使加密非常强大。  </p>
+<ul>
+<li><p>雪崩效应——明文或密钥的微小改变将对密文产生很大的影响。  </p>
+</li>
+<li><p>完备性——每一位密文都依赖于许多位明文。  </p>
+</li>
+</ul>
+<p>到当前为止，最实用的攻击方法仍然是暴力攻击。虽然有 3 种理论攻击（差分密码分析、线性密码分析和改进的戴维斯攻击）的理论复杂性小于暴力破解，但需要不现实的已知明文或选择明文数量，并无实用价值。  </p>
+<p>DES 已被证明是一种设计良好的分组密码。除了暴力穷举密钥搜索外，DES 没有受到任何重要的密码分析攻击。为抵抗暴力破解，有大量的 DES 的代替算法，最重要的有 AES 和 3DES。  </p>
+</div><div class="article-tags size-small mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/">密码学</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2020/06/11/VSCode%E5%BC%80%E5%8F%91%E5%88%A9%E5%99%A8/"><span class="level-item">VSCode配置</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread' ,
+            appId: "gk9VYOgmu7rmis3WxH3F9IE6-gzGzoHsz",
+            appKey: "p3IvW2X3G3oRntzeDgNcklUB",
+            
+            avatar: "mm",
+            
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            
+            highlight: true,
+            
+            
+            
+            
+            
+            requiredFields: [],
+        });</script></div></div></div><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" href="#DES-加密概述"><span class="mr-2">1</span><span>DES 加密概述</span></a></li><li><a class="is-flex" href="#算法描述"><span class="mr-2">2</span><span>算法描述</span></a><ul class="menu-list"><li><a class="is-flex" href="#初始置换和末尾置换"><span class="mr-2">2.1</span><span>初始置换和末尾置换</span></a></li><li><a class="is-flex" href="#费斯妥函数（F-函数）"><span class="mr-2">2.2</span><span>费斯妥函数（F 函数）</span></a><ul class="menu-list"><li><a class="is-flex" href="#扩展置换"><span class="mr-2">2.2.1</span><span>扩展置换</span></a></li><li><a class="is-flex" href="#与密钥混合"><span class="mr-2">2.2.2</span><span>与密钥混合</span></a></li><li><a class="is-flex" href="#S-盒（置换盒）"><span class="mr-2">2.2.3</span><span>S 盒（置换盒）</span></a></li><li><a class="is-flex" href="#置换"><span class="mr-2">2.2.4</span><span>置换</span></a></li></ul></li><li><a class="is-flex" href="#密钥生成"><span class="mr-2">2.3</span><span>密钥生成</span></a></li></ul></li><li><a class="is-flex" href="#安全与密码分析"><span class="mr-2">3</span><span>安全与密码分析</span></a></li></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/">Kyson&#039;s Blog</a><p class="size-small"><span>&copy; 2020 Kyson Lok</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://kysonlok.github.io',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><style>.searchbox .searchbox-body { background: white; }</style><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"><gcse:searchresults-only></gcse:searchresults-only></div></div><script>(function() {
+            var cx = '015657951233762086388:7pwpztiskhw';
+            var gcse = document.createElement('script');
+            gcse.type = 'text/javascript';
+            gcse.async = true;
+            gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(gcse, s);
+        })();</script></div><script src="/js/google_cse.js"></script></body></html>
