@@ -325,7 +325,7 @@ A =
 <p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212511.jpg" alt=""></p>
 <h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><h3 id="初始置换和末尾置换"><a href="#初始置换和末尾置换" class="headerlink" title="初始置换和末尾置换"></a>初始置换和末尾置换</h3><p>初始置换和末尾置换只是对输入按位重新组合，在 DES 中没有密码学意义，初始置换和末尾置换如下所示： </p>
 <p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212534.jpg" alt=""></p>
-<p>输入的第 58 位换到第 1 位，第 50 位换到第2位，…，依此类推，最后一位是原来的第 7 位。假设输入的 64 位块为$M_1, M_2, M_3, …, M_{64}$，则经过初始置换后的结果为 $M_{58}, M_{50}, M_{42}, …, M_7$。  </p>
+<p>输入的第 58 位换到第 1 位，第 50 位换到第 2 位，…，依此类推，最后一位是原来的第 7 位。假设输入的 64 位块为 $M_1, M_2, M_3, …, M_{64}$，则经过初始置换后的结果为 $M_{58}, M_{50}, M_{42}, …, M_7$。  </p>
 <p>64 位的输入 M：    </p>
 <p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612212550.jpg" alt=""></p>
 <p>这里 $M_i$ 都是二进制，经过置换 X=IP(M) 之后，得到的 X：  </p>
@@ -376,6 +376,63 @@ A =
       </categories>
       <tags>
         <tag>密码学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Set Up a ZeroTier Network on OpenWRT</title>
+    <url>/2020/06/12/Set-Up-a-ZeroTier-Network-on-OpenWRT/</url>
+    <content><![CDATA[<h2 id="Presentation"><a href="#Presentation" class="headerlink" title="Presentation"></a>Presentation</h2><p>In this test, we set up Zerotier on GL.iNet’s mini-routers and an Ubuntu VPS so that they can access each other. To use ZeroTier service, you need to create your own ZeroTier account. Sign up for an account here: <a href="https://my.zerotier.com/login">https://my.zerotier.com/login</a>.  </p>
+<a id="more"></a>  
+
+<p><strong>Important: Stop other VPN service on the router before you start is recommended</strong>  </p>
+<p>Login your ZeroTier account. Go to <em>Network</em> menu and click on <strong>Create</strong> button<br>to create a new network.  </p>
+<p>Next you should see the configuration page of your network. Please jot down the <strong>Network ID</strong> which will be used later.  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612223713.jpg" alt=""></p>
+<h2 id="Setup-ZeroTier-on-router"><a href="#Setup-ZeroTier-on-router" class="headerlink" title="Setup ZeroTier on router"></a>Setup ZeroTier on router</h2><h3 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h3><p>SSH to the router, and execute the following commands to install ZeroTier package:  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">opkg update</span><br><span class="line">opkg install zerotier</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><h4 id="ZeroTier"><a href="#ZeroTier" class="headerlink" title="ZeroTier"></a>ZeroTier</h4><p>You should edit the configuration file <em>/etc/config/zerotier</em> to enable ZeroTier<br>and join into a network. It looks like:  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># cat &#x2F;etc&#x2F;config&#x2F;zerotier</span><br><span class="line">config zerotier &#39;sample_config&#39;</span><br><span class="line">	option enabled &#39;1&#39;</span><br><span class="line">	list join &#39;d5e5fb6537869a7d&#39;</span><br></pre></td></tr></table></figure>
+
+<p>Please replace the code above <strong>d5e5fb6537869a7d</strong> with your own Network ID.</p>
+<h4 id="Firewall-optional"><a href="#Firewall-optional" class="headerlink" title="Firewall(optional)"></a>Firewall(optional)</h4><p>If you want to access the router’s LAN, you have to configure the firewall as<br>well. Please edit the firewall configuration file <em>/etc/config/firewall</em>. Add<br>below lines into it.  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">config zone &#39;vpn_zone&#39;</span><br><span class="line">	option name &#39;zerotier&#39;</span><br><span class="line">	option input &#39;ACCEPT&#39;</span><br><span class="line">	option forward &#39;REJECT&#39;</span><br><span class="line">	option output &#39;ACCEPT&#39;</span><br><span class="line">	option device &#39;zt+&#39;</span><br><span class="line">	option masq &#39;1&#39;</span><br><span class="line">	option mtu_fix &#39;1&#39;</span><br><span class="line"></span><br><span class="line">config forwarding</span><br><span class="line">	option dest &#39;zerotier&#39;</span><br><span class="line">	option src &#39;lan&#39;</span><br><span class="line"></span><br><span class="line">config forwarding</span><br><span class="line">	option dest &#39;lan&#39;</span><br><span class="line">	option src &#39;zerotier&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Start-ZeroTier-Service"><a href="#Start-ZeroTier-Service" class="headerlink" title="Start ZeroTier Service"></a>Start ZeroTier Service</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;etc&#x2F;init.d&#x2F;zerotier restart</span><br><span class="line">&#x2F;etc&#x2F;init.d&#x2F;firewall restart</span><br></pre></td></tr></table></figure>
+
+<p>Go back to your Zerotier’s web console and you will see the device which you just joined. Check the checkbox of “Auth?”, otherwise, your device may not be able to get an IP address from ZeroTier.  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612223932.jpg" alt=""></p>
+<p>After authentication, the network interface will obtain an IP address. Check it<br>out via <code>ifconfig</code>, it looks like:    </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># ifconfig </span><br><span class="line">ztwdjh372k Link encap:Ethernet  HWaddr 7E:BD:F0:B6:4E:87  </span><br><span class="line">          inet addr:10.241.143.3  Bcast:10.241.255.255  Mask:255.255.0.0</span><br><span class="line">          inet6 addr: fdd5:e5fb:6537:869a:7d99:9327:7681:2b7c&#x2F;88 Scope:Global</span><br><span class="line">          inet6 addr: fce2:6361:1827:7681:2b7c::1&#x2F;40 Scope:Global</span><br><span class="line">          inet6 addr: fe80::7cbd:f0ff:feb6:4e87&#x2F;64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:2800  Metric:1</span><br><span class="line">          RX packets:39 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:68 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000 </span><br><span class="line">          RX bytes:1638 (1.5 KiB)  TX bytes:4368 (4.2 KiB)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Managed-Routes-optional"><a href="#Managed-Routes-optional" class="headerlink" title="Managed Routes(optional)"></a>Managed Routes(optional)</h3><p>You can manage route in ZeroTier’s web console. For example, I add a static route on <strong>Managed Routes</strong>, so that I can access the router’s LAN.  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612223957.jpg" alt=""></p>
+<h2 id="Setup-ZeroTier-on-Ubuntu"><a href="#Setup-ZeroTier-on-Ubuntu" class="headerlink" title="Setup ZeroTier on Ubuntu"></a>Setup ZeroTier on Ubuntu</h2><h3 id="Installation-1"><a href="#Installation-1" class="headerlink" title="Installation"></a>Installation</h3><p>Install ZeroTier and join the network which you created before.  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -s https:&#x2F;&#x2F;install.zerotier.com&#x2F; | sudo bash</span><br><span class="line">sudo zerotier-cli join d5e5fb6537869a7d</span><br></pre></td></tr></table></figure>
+
+<p>Please replace the code above <strong>d5e5fb6537869a7d</strong> with your own Network ID.  </p>
+<p>You need to check the checkbox of “Auth?” in ZeroTier’s web console as well.  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200612224007.jpg" alt=""></p>
+<p>After authentication, the network interface will obtain an IP address. Check it<br>out via <code>ifconfig</code>, it looks like:    </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># ifconfig </span><br><span class="line">ztwdjh372k: flags&#x3D;4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 2800</span><br><span class="line">        inet 10.241.116.0  netmask 255.255.0.0  broadcast 10.241.255.255</span><br><span class="line">        inet6 fe80::7cce:ffff:fee0:638c  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        inet6 fdd5:e5fb:6537:869a:7d99:9354:79d7:677  prefixlen 88  scopeid 0x0&lt;global&gt;</span><br><span class="line">        inet6 fce2:6361:1854:79d7:677::1  prefixlen 40  scopeid 0x0&lt;global&gt;</span><br><span class="line">        ether 7e:ce:ff:e0:63:8c  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 0  bytes 0 (0.0 B)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 85  bytes 4266 (4.2 KB)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br></pre></td></tr></table></figure>
+
+<h2 id="Testing"><a href="#Testing" class="headerlink" title="Testing"></a>Testing</h2><p>The router and the Ubuntu VPS are able to ping each other.  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kyson@ip-172-31-34-95:~$ ping 10.241.143.3</span><br><span class="line">PING 10.241.143.3 (10.241.143.3) 56(84) bytes of data.</span><br><span class="line">64 bytes from 10.241.143.3: icmp_seq&#x3D;1 ttl&#x3D;64 time&#x3D;1143 ms</span><br><span class="line">64 bytes from 10.241.143.3: icmp_seq&#x3D;2 ttl&#x3D;64 time&#x3D;132 ms</span><br><span class="line">64 bytes from 10.241.143.3: icmp_seq&#x3D;3 ttl&#x3D;64 time&#x3D;65.6 ms</span><br><span class="line">64 bytes from 10.241.143.3: icmp_seq&#x3D;4 ttl&#x3D;64 time&#x3D;65.7 ms</span><br><span class="line">64 bytes from 10.241.143.3: icmp_seq&#x3D;5 ttl&#x3D;64 time&#x3D;65.8 ms</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">root@GL-AR300M:&#x2F;# ping 10.241.116.0</span><br><span class="line">PING 10.241.116.0 (10.241.116.0): 56 data bytes</span><br><span class="line">64 bytes from 10.241.116.0: seq&#x3D;0 ttl&#x3D;64 time&#x3D;66.097 ms</span><br><span class="line">64 bytes from 10.241.116.0: seq&#x3D;1 ttl&#x3D;64 time&#x3D;66.264 ms</span><br><span class="line">64 bytes from 10.241.116.0: seq&#x3D;3 ttl&#x3D;64 time&#x3D;65.377 ms</span><br><span class="line">64 bytes from 10.241.116.0: seq&#x3D;4 ttl&#x3D;64 time&#x3D;65.222 ms</span><br></pre></td></tr></table></figure>
+
+<p>The Ubuntu VPS can reach router’s LAN if you configure the route.  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kyson@ip-172-31-34-95:~$ ping 192.168.8.1</span><br><span class="line">PING 192.168.8.1 (192.168.8.1) 56(84) bytes of data.</span><br><span class="line">64 bytes from 192.168.8.1: icmp_seq&#x3D;1 ttl&#x3D;64 time&#x3D;65.7 ms</span><br><span class="line">64 bytes from 192.168.8.1: icmp_seq&#x3D;2 ttl&#x3D;64 time&#x3D;66.0 ms</span><br><span class="line">64 bytes from 192.168.8.1: icmp_seq&#x3D;3 ttl&#x3D;64 time&#x3D;65.6 ms</span><br><span class="line">64 bytes from 192.168.8.1: icmp_seq&#x3D;4 ttl&#x3D;64 time&#x3D;65.8 ms</span><br><span class="line">64 bytes from 192.168.8.1: icmp_seq&#x3D;6 ttl&#x3D;64 time&#x3D;65.2 ms</span><br></pre></td></tr></table></figure>
+
+<h2 id="Troubleshooting"><a href="#Troubleshooting" class="headerlink" title="Troubleshooting"></a>Troubleshooting</h2><p>If everthing is fine, but you can’t reach the router from Ubuntu VPS. It usually caused by <strong>mwan3</strong>, you can try to stop and remove it.  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mwan3 stop</span><br><span class="line">opkg remove mwan3 --force-depends</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>VPN</category>
+      </categories>
+      <tags>
+        <tag>OpenWRT</tag>
+        <tag>VPN</tag>
+        <tag>Router</tag>
       </tags>
   </entry>
 </search>
