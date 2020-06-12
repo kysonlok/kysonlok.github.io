@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kysonlok.github.io/2020/06/12/Linux-awk-%E5%91%BD%E4%BB%A4%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</loc>
+    
+    <lastmod>2020-06-12T15:28:05.764Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kysonlok.github.io/2020/06/12/Set-Up-a-Tor-Network-on-OpenWRT/</loc>
+    
+    <lastmod>2020-06-12T14:52:31.486Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kysonlok.github.io/2020/06/12/Set-Up-a-ZeroTier-Network-on-OpenWRT/</loc>
     
     <lastmod>2020-06-12T14:40:17.925Z</lastmod>
