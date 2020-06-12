@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="google-site-verification" content="BEJwibIBrcAQPUa_NmC_S46RiD5z0xyL0WpGrZEEv34"><title>ssh 远程连接 NAT 的 VirtualBox 虚拟机 - Kyson.Lok</title><meta description="写在前面开发过程经常用到 Linux 环境，由于 WSL 不支持嵌入式交叉编译，对于嵌入式交叉编译任务我选择的是 VirtualBox 虚拟机。虚拟机有几种常见的网络类型：NAT，Host-Only 和 Bridge，其中，Host-Only 是不联网的，Bridge 是直接桥接到路由器由路由器给 VirtualBox 分配 IP 地址，NAT 是跑 VirtualBox 的主机充当独立的路由器给"><meta property="og:type" content="blog"><meta property="og:title" content="ssh 远程连接 NAT 的 VirtualBox 虚拟机"><meta property="og:url" content="http://kysonlok.github.io/2020/06/13/ssh-%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5-NAT-%E7%9A%84-VirtualBox-%E8%99%9A%E6%8B%9F%E6%9C%BA/"><meta property="og:site_name" content="Kyson.Lok"><meta property="og:description" content="写在前面开发过程经常用到 Linux 环境，由于 WSL 不支持嵌入式交叉编译，对于嵌入式交叉编译任务我选择的是 VirtualBox 虚拟机。虚拟机有几种常见的网络类型：NAT，Host-Only 和 Bridge，其中，Host-Only 是不联网的，Bridge 是直接桥接到路由器由路由器给 VirtualBox 分配 IP 地址，NAT 是跑 VirtualBox 的主机充当独立的路由器给"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200613064747.jpg"><meta property="og:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200613064847.jpg"><meta property="article:published_time" content="2020-06-12T22:23:28.000Z"><meta property="article:modified_time" content="2020-06-12T22:54:40.575Z"><meta property="article:author" content="Kyson Lok"><meta property="article:tag" content="VirtualBox"><meta property="article:tag" content="NAT"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://gitee.com/kysonlok/imgurl/raw/master/img/20200613064747.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://kysonlok.github.io/2020/06/13/ssh-%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5-NAT-%E7%9A%84-VirtualBox-%E8%99%9A%E6%8B%9F%E6%9C%BA/"},"headline":"Kyson.Lok","image":["https://gitee.com/kysonlok/imgurl/raw/master/img/20200613064747.jpg","https://gitee.com/kysonlok/imgurl/raw/master/img/20200613064847.jpg"],"datePublished":"2020-06-12T22:23:28.000Z","dateModified":"2020-06-12T22:54:40.575Z","author":{"@type":"Person","name":"Kyson Lok"},"description":"写在前面开发过程经常用到 Linux 环境，由于 WSL 不支持嵌入式交叉编译，对于嵌入式交叉编译任务我选择的是 VirtualBox 虚拟机。虚拟机有几种常见的网络类型：NAT，Host-Only 和 Bridge，其中，Host-Only 是不联网的，Bridge 是直接桥接到路由器由路由器给 VirtualBox 分配 IP 地址，NAT 是跑 VirtualBox 的主机充当独立的路由器给"}</script><link rel="canonical" href="http://kysonlok.github.io/2020/06/13/ssh-%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5-NAT-%E7%9A%84-VirtualBox-%E8%99%9A%E6%8B%9F%E6%9C%BA/"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Kyson&#039;s Blog</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/kysonlok"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2020-06-12T22:23:28.000Z" title="2020-06-12T22:23:28.000Z">2020-06-13</time><span class="level-item"><a class="link-muted" href="/categories/%E5%A4%87%E5%BF%98%E5%BD%95/">备忘录</a></span><span class="level-item">3 分钟 读完 (大约 435 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">ssh 远程连接 NAT 的 VirtualBox 虚拟机</h1><div class="content"><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>开发过程经常用到 Linux 环境，由于 WSL 不支持嵌入式交叉编译，对于嵌入式交叉编译任务我选择的是 VirtualBox 虚拟机。虚拟机有几种常见的网络类型：NAT，Host-Only 和 Bridge，其中，Host-Only 是不联网的，Bridge 是直接桥接到路由器由路由器给 VirtualBox 分配 IP 地址，NAT 是跑 VirtualBox 的主机充当独立的路由器给 VirtualBox 分配 IP 地址。Bridge 方式主机和 VirtualBox 处于同一个局域网，防火墙正常情况下能互访互通；NAT 方式主机和 VirtualBox 是隔离的，防火墙正常情况下是不能互访互通的。  </p>
+<a id="more"></a>  
+
+<p>因为主机运行了 VPN 软件用来访问公司内网，VirtualBox 也需要使用访问内网拉去和提交代码，Bridge 的网络类型不满足需求，转而选择 NAT。  </p>
+<h2 id="配置端口转发"><a href="#配置端口转发" class="headerlink" title="配置端口转发"></a>配置端口转发</h2><p>缺省情况下，NAT 模式下主机和 VirtualBox 无法互访互通，但是 VirtualBox 提供了端口转发功能，可以通过配置端口转发，实现 ssh 远程登录。  </p>
+<p>选择 VirtualBox 的 Guest OS，依次选择 <strong>Settings &gt; Network &gt; Advanced &gt; Port Forwarding</strong>。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200613064747.jpg" alt=""></p>
+<p>添加一条端口转发规则，包含名称，协议，主机 IP 地址，主机的端口，虚拟机的 IP 地址，虚拟机的端口。这里，我配置了把本地的 8022 端口转发到虚拟机的 22 端口。    </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200613064847.jpg" alt=""></p>
+<p>配置完成后，重启虚拟机，就可以在主机通过 ssh 登录到 VirtualBox 了。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 8022 &lt;username&gt;@127.0.0.1</span><br></pre></td></tr></table></figure></div><div class="article-tags size-small mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/VirtualBox/">VirtualBox</a><a class="link-muted mr-2" rel="tag" href="/tags/NAT/">NAT</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2020/06/12/Linux-Shell-%E5%8F%98%E9%87%8F%E5%8F%82%E6%95%B0%E6%89%A9%E5%B1%95%E6%95%99%E7%A8%8B/"><span class="level-item">Linux Shell 变量参数扩展教程</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread' ,
+            appId: "gk9VYOgmu7rmis3WxH3F9IE6-gzGzoHsz",
+            appKey: "p3IvW2X3G3oRntzeDgNcklUB",
+            
+            avatar: "mm",
+            
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            
+            highlight: true,
+            
+            
+            
+            
+            
+            requiredFields: [],
+        });</script></div></div></div><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><!--!--></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/">Kyson&#039;s Blog</a><p class="size-small"><span>&copy; 2020 Kyson Lok</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://kysonlok.github.io',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><style>.searchbox .searchbox-body { background: white; }</style><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"><gcse:searchresults-only></gcse:searchresults-only></div></div><script>(function() {
+            var cx = '015657951233762086388:7pwpztiskhw';
+            var gcse = document.createElement('script');
+            gcse.type = 'text/javascript';
+            gcse.async = true;
+            gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(gcse, s);
+        })();</script></div><script src="/js/google_cse.js"></script></body></html>

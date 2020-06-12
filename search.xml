@@ -602,4 +602,26 @@ A =
         <tag>shell</tag>
       </tags>
   </entry>
+  <entry>
+    <title>ssh 远程连接 NAT 的 VirtualBox 虚拟机</title>
+    <url>/2020/06/13/ssh-%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5-NAT-%E7%9A%84-VirtualBox-%E8%99%9A%E6%8B%9F%E6%9C%BA/</url>
+    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>开发过程经常用到 Linux 环境，由于 WSL 不支持嵌入式交叉编译，对于嵌入式交叉编译任务我选择的是 VirtualBox 虚拟机。虚拟机有几种常见的网络类型：NAT，Host-Only 和 Bridge，其中，Host-Only 是不联网的，Bridge 是直接桥接到路由器由路由器给 VirtualBox 分配 IP 地址，NAT 是跑 VirtualBox 的主机充当独立的路由器给 VirtualBox 分配 IP 地址。Bridge 方式主机和 VirtualBox 处于同一个局域网，防火墙正常情况下能互访互通；NAT 方式主机和 VirtualBox 是隔离的，防火墙正常情况下是不能互访互通的。  </p>
+<a id="more"></a>  
+
+<p>因为主机运行了 VPN 软件用来访问公司内网，VirtualBox 也需要使用访问内网拉去和提交代码，Bridge 的网络类型不满足需求，转而选择 NAT。  </p>
+<h2 id="配置端口转发"><a href="#配置端口转发" class="headerlink" title="配置端口转发"></a>配置端口转发</h2><p>缺省情况下，NAT 模式下主机和 VirtualBox 无法互访互通，但是 VirtualBox 提供了端口转发功能，可以通过配置端口转发，实现 ssh 远程登录。  </p>
+<p>选择 VirtualBox 的 Guest OS，依次选择 <strong>Settings &gt; Network &gt; Advanced &gt; Port Forwarding</strong>。  </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200613064747.jpg" alt=""></p>
+<p>添加一条端口转发规则，包含名称，协议，主机 IP 地址，主机的端口，虚拟机的 IP 地址，虚拟机的端口。这里，我配置了把本地的 8022 端口转发到虚拟机的 22 端口。    </p>
+<p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200613064847.jpg" alt=""></p>
+<p>配置完成后，重启虚拟机，就可以在主机通过 ssh 登录到 VirtualBox 了。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ssh -p 8022 &lt;username&gt;@127.0.0.1</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>备忘录</category>
+      </categories>
+      <tags>
+        <tag>VirtualBox</tag>
+        <tag>NAT</tag>
+      </tags>
+  </entry>
 </search>
