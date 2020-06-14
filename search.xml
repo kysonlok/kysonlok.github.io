@@ -660,18 +660,14 @@ A =
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.&#x2F;gdbserver :12120 my_prog</span><br></pre></td></tr></table></figure>
 
 <p><strong>12120</strong> 表示监听的端口号，随便指定一个可用的端口即可。这里没有指定 IP 地址，表示 “0.0.0.0”，监听所有网络接口，如需要指定某个网络接口，可以指定 IP 地址。    </p>
-<h3 id="Linux-主机端"><a href="#Linux-主机端" class="headerlink" title="Linux 主机端"></a>Linux 主机端</h3><ol>
-<li><p>启动调试  </p>
-<p>用交叉编译工具链中的 <strong>gdb</strong> 把上面编译的应用程序运行起来。  </p>
+<h3 id="Linux-主机端"><a href="#Linux-主机端" class="headerlink" title="Linux 主机端"></a>Linux 主机端</h3><h4 id="启动调试"><a href="#启动调试" class="headerlink" title="启动调试"></a>启动调试</h4><p>用交叉编译工具链中的 <strong>gdb</strong> 把上面编译的应用程序运行起来。  </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;home&#x2F;kyson&#x2F;toolchain&#x2F;rsdk-4.6.4-4181-EB-3.10-u0.9.33-m32-150324&#x2F;bin&#x2F;mips-linux-gdb --args my_prog</span><br></pre></td></tr></table></figure>
 
 <p><strong>–args</strong> 表示要调试的可执行文件后的参数被传递，也就是调试的程序是接收命令行参数的，要加上此参数。  </p>
 <blockquote>
 <p>注意，主机端的程序不能是 strip 的，因为 gdb 调试要找到符号表，并且编译要加上 <code>-g</code> 调试选项，否则调试获取不到关键信息。    </p>
 </blockquote>
-</li>
-<li><p>连接 gdbserver  </p>
-<p>gdb 启动后，连接到设备端的 gdbserver。  </p>
+<h4 id="连接-gdbserver"><a href="#连接-gdbserver" class="headerlink" title="连接 gdbserver"></a>连接 gdbserver</h4><p>gdb 启动后，连接到设备端的 gdbserver。  </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(gdb) target remote 192.168.0.210:12120</span><br><span class="line">Remote debugging using 192.168.0.210:12120</span><br></pre></td></tr></table></figure>
 
 <p><strong>192.168.0.210</strong> 是设备端的 IP 地址。  </p>
@@ -679,19 +675,17 @@ A =
 <blockquote>
 <p>Tips: 连接不上检查一下 Linux 主机和设备是否同处于一个局域网，设备端的防火墙是否关闭。    </p>
 </blockquote>
-</li>
-<li><p>设置动态库路径(可选)  </p>
-<p>如果程序依赖外部的动态库，可以设置查找库的路径。    </p>
+<h4 id="设置动态库路径-可选"><a href="#设置动态库路径-可选" class="headerlink" title="设置动态库路径(可选)"></a>设置动态库路径(可选)</h4><p>如果程序依赖外部的动态库，可以设置查找库的路径。    </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(gdb) set solib-search-path [Directories]</span><br></pre></td></tr></table></figure>
 <p><strong>Directories</strong> 表示动态库所在的路径，多个路径用 <strong>:</strong> 分割。   </p>
-</li>
-<li><p>开始调试  </p>
-<p>因为 gdbserver 已经把程序启动了，主机端进入调试模式不需要执行 <strong>r</strong> (run)，直接执行 <strong>c</strong> (continue) 就可以进行调试了。 更多 gdb 用法，可以参考 <a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Sample-Session.html#Sample-Session">A Sample GDB Session</a>。  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(gdb) c</span><br><span class="line">Continuing.</span><br><span class="line"></span><br><span class="line">Program received signal SIGSEGV, Segmentation fault.</span><br><span class="line">0x0040084c in copy_str (str&#x3D;0x0) at main.c:8</span><br><span class="line">8	    strcpy(str, &quot;Hello World&quot;);</span><br><span class="line">(gdb) bt</span><br><span class="line">#0  0x0040084c in copy_str (str&#x3D;0x0) at main.c:8</span><br><span class="line">#1  0x004009bc in main (argc&#x3D;1, argv&#x3D;0x7fff6ea4) at main.c:15</span><br></pre></td></tr></table></figure>
+<h4 id="开始调试"><a href="#开始调试" class="headerlink" title="开始调试"></a>开始调试</h4><p>因为 gdbserver 已经把程序启动了，主机端进入调试模式不需要执行 <strong>r</strong> (run)，直接执行 <strong>c</strong> (continue) 就可以进行调试了。 更多 gdb 用法，可以参考 <a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Sample-Session.html#Sample-Session">A Sample GDB Session</a>。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(gdb) c</span><br><span class="line">Continuing.</span><br><span class="line">   </span><br><span class="line">Program received signal SIGSEGV, Segmentation fault.</span><br><span class="line">0x0040084c in copy_str (str&#x3D;0x0) at main.c:8</span><br><span class="line">8	    strcpy(str, &quot;Hello World&quot;);</span><br><span class="line">(gdb) bt</span><br><span class="line">#0  0x0040084c in copy_str (str&#x3D;0x0) at main.c:8</span><br><span class="line">#1  0x004009bc in main (argc&#x3D;1, argv&#x3D;0x7fff6ea4) at main.c:15</span><br></pre></td></tr></table></figure>
 
 <p>从上面的调试结果可以定位到程序运行到 <code>copy_str</code> 函数的 strcpy 出现了段错误，符合预期结果。  </p>
-</li>
-</ol>
+<p>gdbservere 调试有时候会遇到诸如这样的警告。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">warning: .dynamic section for &quot;&#x2F;home&#x2F;kyson&#x2F;toolchain&#x2F;msdk-4.4.7-mips-EL-3.10-u0.9.33-m32t-140827&#x2F;bin&#x2F;..&#x2F;lib&#x2F;libdl.so.0&quot; is not at the expected address (wrong library or version mismatch?)</span><br><span class="line">warning: .dynamic section for &quot;&#x2F;home&#x2F;kyson&#x2F;workspace&#x2F;toolchain&#x2F;msdk-4.4.7-mips-EL-3.10-u0.9.33-m32t-140827&#x2F;bin&#x2F;..&#x2F;lib&#x2F;libm.so.0&quot; is not at the expected address (wrong library or version mismatch?)</span><br></pre></td></tr></table></figure>
+
+<p>这是 Linux 主机端使用的动态库与设备端使用的动态库不一致导致的，通常不影响我们的调试，可以忽略。想要消除这个警告，可以把交叉编译工具链 <strong>lib</strong> 目录下的动态库打包上传到目标设备上的 <strong>/tmp</strong> 目录下，然后在设备上执行 <code>export LD_LIBRARY_PATH=[动态库路径]</code>，让设备端使用的动态库跟 Linux 主机端的一致。  </p>
 <h2 id="VSCode-可视化调试"><a href="#VSCode-可视化调试" class="headerlink" title="VSCode 可视化调试"></a>VSCode 可视化调试</h2><p>gdbserver 调试跑通之后，就可以配置 VSCode 进行可视化调试了。效果图：    </p>
 <p><img src="https://gitee.com/kysonlok/imgurl/raw/master/img/20200613140241.jpg" alt=""></p>
 <p>为了方便，这里使用默认的编译配置模板(在 VSCode 菜单栏选择 <strong>Terminal &gt; Configure Default Build Task</strong>)以及调试配置模板(在 VSCode 菜单栏选择 <strong>Run &gt; Add Configuration…</strong>)，然后稍微修改调整。  </p>
